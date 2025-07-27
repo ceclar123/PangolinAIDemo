@@ -50,4 +50,24 @@
             <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version> <!-- 推荐使用最新稳定版本 -->
+                <configuration>
+                    <source>21</source>        <!-- 源代码版本 -->
+                    <target>21</target>        <!-- 生成的字节码版本 -->
+                    <release>21</release>
+                    <encoding>UTF-8</encoding> <!-- 源文件编码 -->
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg> <!-- 启用编译器警告 -->
+                        <arg>-parameters</arg>      <!-- 编译时保留方法参数名（用于反射） -->
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

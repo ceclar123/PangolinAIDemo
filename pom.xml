@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>demo</name>
     <modules>
-        <module>function.call</module>
+        <module>tool</module>
         <module>mcp</module>
         <module>hello-low</module>
         <module>common</module>
@@ -61,6 +61,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.18.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>2.0.57</version>
             </dependency>
             <!--  OpenAI集成模式 -->
             <dependency>
