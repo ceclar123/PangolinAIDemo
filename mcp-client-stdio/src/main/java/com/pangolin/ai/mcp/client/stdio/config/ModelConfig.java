@@ -28,18 +28,29 @@ public class ModelConfig {
                 .build();
     }
 
-    @Bean(name = "sisService")
-    public SisService getSisService(ChatModel pureChatModel) {
+    @Bean(name = "sisMcpClient")
+    public McpClient sisMcpClient() {
+        // 先将mcp-server-stdio打包成可执行文件
+        // 这几个启动参数很重要,否则 dev.langchain4j.mcp.client.transport.stdio.ProcessIOHandler 获取到乱七八槽的数据，不是json格式，会报错
         McpTransport transport = new StdioMcpTransport.Builder()
-                .command(Arrays.asList("java", "-jar", "D:/html/mcp-server-stdio-1.0.0-SNAPSHOT.jar", "--port=8080"))
+                .command(Arrays.asList("java",
+                        "-Dspring.ai.mcp.server.stdio=true",
+                        "-Dspring.main.web-application-type=none",
+                        "-Dlogging.pattern.console=",
+                        "-jar",
+                        "D:/html/mcp-server-stdio-1.0.0-SNAPSHOT.jar",
+                        "--port=8080"))
                 .logEvents(true)
                 .build();
-        McpClient mcpClient = new DefaultMcpClient.Builder()
+        return new DefaultMcpClient.Builder()
                 .key("sis-mcp-client")
                 .transport(transport)
                 .initializationTimeout(Duration.ofMinutes(1))
                 .build();
+    }
 
+    @Bean(name = "sisService")
+    public SisService getSisService(ChatModel pureChatModel, McpClient mcpClient) {
         McpToolProvider toolProvider = McpToolProvider.builder()
                 .mcpClients(mcpClient)
                 //.filterToolNames("get_issue", "get_issue_comments", "list_issues")

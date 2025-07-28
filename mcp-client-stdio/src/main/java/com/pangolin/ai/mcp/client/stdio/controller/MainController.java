@@ -3,17 +3,16 @@ package com.pangolin.ai.mcp.client.stdio.controller;
 import com.alibaba.fastjson2.JSONObject;
 import com.pangolin.ai.common.dto.ResultDto;
 import com.pangolin.ai.mcp.client.stdio.service.SisService;
-import io.modelcontextprotocol.client.McpSyncClient;
-import io.modelcontextprotocol.spec.McpSchema;
+import dev.langchain4j.agent.tool.ToolExecutionRequest;
+import dev.langchain4j.mcp.client.McpClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,11 +21,10 @@ public class MainController {
     @Autowired
     private SisService sisService;
 
+    @Qualifier("sisMcpClient")
     @Autowired
-    private List<McpSyncClient> mcpSyncClients;
+    private McpClient mcpClient;
 
-//    @Autowired
-//    private List<McpAsyncClient> mcpAsyncClients;
 
     @GetMapping()
     public ResultDto<String> test() {
@@ -45,24 +43,16 @@ public class MainController {
             return ResultDto.failedOf("question invalid");
         }
 
-        log.info("test1 question={}, size={}, ping={}", question, mcpSyncClients.size(), mcpSyncClients.getFirst().ping());
-        for (McpSchema.Tool tool : mcpSyncClients.getFirst().listTools().tools()) {
-            log.info("test1 tool name={}, desc={}", tool.name(), tool.description());
-        }
-
         JSONObject jo = new JSONObject();
         jo.put("subject", "语文");
         jo.put("studentId", "1002");
 
-        for (McpSyncClient mcpSyncClient : mcpSyncClients) {
-            for (McpSchema.Tool tool : mcpSyncClient.listTools().tools()) {
-                McpSchema.CallToolRequest request = new McpSchema.CallToolRequest(tool.name(), jo.toJSONString());
-                McpSchema.CallToolResult result = mcpSyncClient.callTool(request);
-                log.info("test1 invoke tool name={}, desc={}, result={}", tool.name(), tool.description(), result.content());
-            }
-        }
+        ToolExecutionRequest request = ToolExecutionRequest.builder().name("getSubjectNumber").arguments(jo.toJSONString()).build();
 
-        return ResultDto.sucOf("ok");
+        String answer = mcpClient.executeTool(request);
+
+        log.info("test1 question={}, answer={}", question, answer);
+        return ResultDto.sucOf(answer);
     }
 
     /**
