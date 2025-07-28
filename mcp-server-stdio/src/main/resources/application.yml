@@ -1,0 +1,26 @@
+logging:
+  file:
+    name: 123.log
+  level:
+    org:
+      springframework: ERROR
+    com:
+      pangolin: ERROR
+
+server:
+  port: 8000
+spring:
+  application:
+    name: mcp-server-stdio
+  main:
+    banner-mode: 'off'
+  # MCP配置 org.springframework.ai.mcp.server.autoconfigure.McpServerProperties
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: sis-mcp-server
+        request-timeout: 1000000
+        stdio: true
+        type: SYNC
+        version: 1.0.0

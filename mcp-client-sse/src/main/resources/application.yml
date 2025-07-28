@@ -1,0 +1,16 @@
+spring:
+  # MCP配置 org.springframework.ai.mcp.client.common.autoconfigure.properties.McpClientCommonProperties
+  ai:
+    mcp:
+      client:
+        enabled: true
+        name: mcp-client-sse
+        version: 1.0.0
+        request-timeout: 30s
+        type: SYNC  # or ASYNC for reactive applications
+        tool-callback:
+          enabled: true
+        sse:
+          connections:
+            server1:
+              url: http://localhost:8000

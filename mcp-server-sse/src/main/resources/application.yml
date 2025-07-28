@@ -1,0 +1,28 @@
+logging:
+  level:
+    org:
+      springframework: DEBUG
+server:
+  port: 8000
+spring:
+  application:
+    name: mcp-server-sse
+  main:
+    banner-mode: 'off'
+  # MCP配置 org.springframework.ai.mcp.server.autoconfigure.McpServerProperties
+  ai:
+    mcp:
+      server:
+        capabilities:
+          completion: true
+          prompt: true
+          resource: true
+          tool: true
+        enabled: true
+        instructions: 提供学生信息查询的教务系统
+        name: sis-mcp-server
+        request-timeout: 1000000
+        # sse-message-endpoint: /mcp/messages
+        stdio: false
+        type: SYNC
+        version: 1.0.0

@@ -11,11 +11,13 @@
     <name>demo</name>
     <modules>
         <module>tool</module>
-        <module>mcp-server</module>
         <module>hello-low</module>
         <module>common</module>
-        <module>hello-high</module>
-        <module>mcp-client</module>
+        <module>hello-high</module>        
+        <module>mcp-client-sse</module>
+		<module>mcp-client-stdio</module>
+        <module>mcp-server-sse</module>
+        <module>mcp-server-stdio</module>
     </modules>
 
     <properties>
@@ -23,7 +25,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.5.4</spring-boot.version>
-        <spring-ai.version>1.0.0</spring-ai.version>
+        <spring-ai.version>1.1.0-SNAPSHOT</spring-ai.version>
         <langchain4j.version>1.1.0</langchain4j.version>
         <langchain4j-open-api-spring-boot.version>1.0.0-beta3</langchain4j-open-api-spring-boot.version>
         <langchain4j-spring-boot.version>1.1.0-beta7</langchain4j-spring-boot.version>
@@ -103,21 +105,21 @@
                 <version>${langchain4j-spring-boot.version}</version>
             </dependency>
             <!-- MCP服务端 -->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.ai</groupId>-->
-<!--                <artifactId>spring-ai-starter-mcp-server</artifactId>-->
-<!--                <version>1.0.0</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.ai</groupId>-->
-<!--                <artifactId>spring-ai-starter-mcp-server-webflux</artifactId>-->
-<!--                <version>1.0.0</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.ai</groupId>-->
-<!--                <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>-->
-<!--                <version>1.0.0</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.springframework.ai</groupId>-->
+            <!--                <artifactId>spring-ai-starter-mcp-server</artifactId>-->
+            <!--                <version>1.0.0</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.springframework.ai</groupId>-->
+            <!--                <artifactId>spring-ai-starter-mcp-server-webflux</artifactId>-->
+            <!--                <version>1.0.0</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.springframework.ai</groupId>-->
+            <!--                <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>-->
+            <!--                <version>1.0.0</version>-->
+            <!--            </dependency>-->
             <!-- mcp客户端 -->
             <dependency>
                 <groupId>dev.langchain4j</groupId>
@@ -148,6 +150,25 @@
     </build>
 
     <repositories>
+        <repository>
+            <name>Central Portal Snapshots</name>
+            <id>central-portal-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
         <repository>
             <id>spring-milestones</id>
             <name>spring milestones</name>
